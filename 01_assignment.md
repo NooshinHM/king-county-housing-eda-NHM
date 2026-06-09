@@ -13,7 +13,8 @@ analysis techniques and presentation of results to a client.
 - The description of the column names can be found in the [`column_names.md`](column_names.md) file.
 - The column names may NOT be clear at times:
 
-__In the real world we will run into similar challenges. We would then go ask our business clients for more information. In this case, let us assume our business client who would give us information, left the company. Meaning we would have to identify and look up what each column names might actually mean. (google is your friend ;)__
+>[!NOTE]
+>In the real world we will run into similar challenges. We would then go ask our business clients for more information. In this case, let us assume our business client who would give us information, left the company. Meaning we would have to identify and look up what each column names might actually mean. (google is your friend ;)
 
 ## The Tasks
 
@@ -21,7 +22,8 @@ __In the real world we will run into similar challenges. We would then go ask ou
 2. Through EDA/statistical analysis above please come up with **AT LEAST 3 insights** regarding the overall data. One should be geographical.
 3. In addition also come up with **AT LEAST 3 recommendations** for your client.
 
-_Note, you can take either the perspective of a buyer or a seller. Choose a client from the list at the end of this file._
+>[!NOTE]
+>You can take either the perspective of a buyer or a seller. Choose a client from the list at the end of this file.
 
 ## The Deliverables
 
@@ -34,7 +36,8 @@ _Note, you can take either the perspective of a buyer or a seller. Choose a clie
 
 - Please choose a client.
 
-_Note: As these clients are made up (any resemblance to present people is absolutely random), please make assumptions about answers they would give to your questions. (i.e. How do you define a rich neighborhood? take the zipcodes with most houses in upper 10% percentile..). Whatever assumptions you make, please write them explicitly in your presentation and notebook._
+>[!NOTE]
+>As these clients are made up (any resemblance to present people is absolutely random), please make assumptions about answers they would give to your questions. (i.e. How do you define a rich neighborhood? take the zipcodes with most houses in upper 10% percentile..). Whatever assumptions you make, please write them explicitly in your presentation and notebook.
 
 | Name                | Client | Characteristics                                                                                                                                                                      |
 | ------------------- | ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |

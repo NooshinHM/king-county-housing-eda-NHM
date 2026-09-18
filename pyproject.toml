@@ -3,12 +3,18 @@ name = "ds-eda-project-template"
 version = "0.1.0"
 requires-python = ">=3.13"
 dependencies = [
+    "contextily>=1.7.1",
+    "folium>=0.20.0",
+    "geopandas>=1.1.4",
+    "h3>=4.5.0",
     "missingno>=0.5.2",
     "plotly>=6.8.0",
     "psycopg2-binary>=2.9.12",
+    "pydeck>=0.9.3",
     "python-dotenv>=1.2.2",
     "seaborn>=0.13.2",
     "sqlalchemy>=2.0.50",
+    "xyzservices>=2026.9.1",
 ]
 
 [dependency-groups]

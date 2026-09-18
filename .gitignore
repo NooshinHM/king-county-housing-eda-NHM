@@ -145,3 +145,5 @@ models/*.pkl
 
 # vscode Stuff
 .vscode
+
+king_county_house_details_202609160945.csv

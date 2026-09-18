@@ -1,136 +1,226 @@
-# King County Housing EDA Project Template
+# King County Housing EDA
 
-This is the starter template for the Exploratory Data Analysis (EDA) project. You will work with the King County housing dataset (home sales in and around Seattle, USA), uncover what drives house prices, and turn your findings into insights and recommendations for a client you choose.
+## Client-Centered Analysis of Luxury Waterfront Homes
 
-## Learning Objectives
+This project presents an exploratory data analysis of the King County housing market with a client-centered focus.
 
-By the end of this repository, you should be able to:
+The client, **Jennifer Montgomery**, is a high-budget buyer looking for a distinctive property in King County. Her priorities include:
 
-- Connect to a PostgreSQL database from Python and load query results into a pandas DataFrame.
-- Frame an exploratory data analysis around clear research questions and hypotheses.
-- Clean and wrangle a real-world dataset by handling missing values, outliers, and feature transformations.
-- Explore distributions and the relationships between features and the target variable (price).
-- Translate your analysis into at least three insights and three client-specific recommendations.
-- Present your work to a non-technical audience.
+- Waterfront location
+- High building grade
+- Renovated property
+- Purchase within approximately one month
+- Potential resale within one year
 
-## Learning Path
+The analysis investigates which property characteristics, locations, and market patterns are most relevant to these requirements.
 
-Work through the files in order. Start with the assignment to understand the goal, follow the workflow as your guide, fetch the data, then run your analysis in the EDA notebook.
+---
 
-> [!TIP]
-> The data lives in the **eda** schema of the database and is split across two tables. Before fetching anything in code, connect with DBeaver and explore that schema: inspect both tables, check [**Column Names**](column_names.md) for what each field means, and work out how to join them. Once you have a working `JOIN`, use it as the query in [**03 - Fetching the Data**](03_fetching_the_data_eda.ipynb) to load the combined dataset into pandas.
+## Client Questions and Hypotheses
 
-| File / Folder                                                   | Description                                                                                                              |
-| --------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
-| [**01 - Assignment**](01_assignment.md)                      | The project brief: the dataset, your tasks, deliverables, and the list of clients to choose from.                        |
-| [**02 - Workflow**](02_workflow.md)                          | A recommended EDA workflow, from understanding and questioning the data through cleaning, relationships, and presenting. |
-| [**03 - Fetching the Data**](03_fetching_the_data_eda.ipynb) | Connect to the PostgreSQL database with psycopg2 and SQLAlchemy, then pull the data into a pandas DataFrame.             |
-| [**04 - EDA**](04_eda.ipynb)                                 | Starter notebook for your exploratory data analysis.                                                                     |
-| [**Column Names**](column_names.md)                          | Data dictionary describing each column in the King County housing dataset.                                               |
+### H1 — Waterfront and Building Grade
 
-### Additional Folders and Files
+Do **high-grade waterfront homes** achieve a larger price premium than homes that are either:
 
-| File / Folder                           | Description                                                                                    |
-| --------------------------------------- | ---------------------------------------------------------------------------------------------- |
-| [**Data**](data/)                    | Where you save the dataset CSV. The folder is tracked, but its data files are kept out of git. |
-| [**.env.example**](.env.example)     | Template for the database credentials. Copy it to `.env` and fill in your values.            |
-| [**pyproject.toml**](pyproject.toml) | Project configuration and dependencies.                                                        |
-| [**uv.lock**](uv.lock)               | Dependency lock file.                                                                          |
+- high-grade only, or
+- waterfront only?
+
+### H2 — Renovation
+
+Among **older high-grade homes**, do renovated properties achieve higher values than non-renovated properties?
+
+### H3 — Location
+
+Where are high-grade waterfront homes concentrated in King County, and how does their **price per square foot** vary geographically?
+
+Additional client questions:
+
+- How frequently do suitable properties appear in the historical sales data?
+- What does the dataset indicate about resale within one year?
+
+---
+
+## Dataset
+
+The analysis is based on the King County housing dataset.
+
+- **21,597 sale records**
+- **21,420 unique houses**
+- **22 variables**
+- Study area: **King County, Washington**
+
+The dataset contains information about:
+
+- Sale date and price
+- Bedrooms and bathrooms
+- Living and lot area
+- Building grade and condition
+- Year built and year renovated
+- Waterfront and view
+- ZIP code
+- Latitude and longitude
+
+The raw data files are not included in this repository.
+
+---
+
+## Data Quality and Cleaning
+
+Before analysis, the dataset was investigated for completeness, plausibility, internal consistency, and spatial validity.
+
+Important cleaning and validation decisions included:
+
+- Missing values were preserved as unknown rather than automatically interpreted as zero.
+- Renovation years contained a systematic trailing-zero formatting issue and were corrected.
+- One implausible record with **33 bedrooms** was identified and the bedroom value was treated as missing rather than guessed.
+- Sale dates were converted to datetime format.
+- Geographic coordinates were validated for King County.
+- Living-area components were checked for internal consistency.
+
+---
+
+## Search Criteria
+
+To translate the client's preferences into measurable variables:
+
+- **High grade:** Grade ≥ 9  
+  Approximately 19.7% of sales.
+
+- **Older home:** Built in 1975 or earlier  
+  1975 is the median construction year of the unique houses.
+
+- **Renovated:** Renovation year > 0
+
+- **Waterfront:** Waterfront = 1
+
+- **Value metric:**  
+  Price per square foot = Sale Price / Living Area
+
+---
+
+## Main Findings
+
+### H1 — High Grade + Waterfront
+
+Median price per square foot:
+
+- High-grade only: **$264/ft²**
+- Waterfront only: **$449/ft²**
+- High-grade + waterfront: **$573/ft²**
+
+The high-grade waterfront segment showed the strongest observed price premium.
+
+---
+
+### H2 — Renovation
+
+Among older high-grade homes:
+
+- Non-renovated median: **$377.05/ft²**
+- Renovated median: **$392.64/ft²**
+
+Renovated properties showed an observed premium of approximately **4.1%**.
+
+---
+
+### H3 — Location
+
+A total of **79 high-grade waterfront homes** were identified.
+
+- Top 4 ZIP codes contain approximately **40.5%** of the target homes.
+- Top 6 ZIP codes contain approximately **50.6%**.
+
+Examples of median price per square foot:
+
+- ZIP 98040: approximately **$705/ft²**
+- ZIP 98166: approximately **$394/ft²**
+- ZIP 98070: approximately **$361/ft²**
+
+The analysis shows substantial geographic variation in the value of high-grade waterfront homes.
+
+---
+
+## Timing
+
+Historical high-grade waterfront sales ranged from:
+
+- **2 to 12 properties per month**
+- Average: approximately **6.6 properties per month**
+
+Suitable sales occurred in every observed month.
+
+This represents historical completed-sale activity and should not be interpreted as current listing availability.
+
+---
+
+## Resale Within One Year
+
+The dataset contained:
+
+- **17 high-grade short-term resales**
+- **13 of 17** increased in sale price
+- Median gross price change: approximately **+2.1%**
+- Median holding period: **212 days**
+
+However:
+
+**No waterfront property in the dataset was observed to resell within one year.**
+
+Therefore, the dataset does not provide direct evidence for the one-year resale performance of Jennifer's exact high-grade waterfront target segment.
+
+---
+
+## Client Recommendation
+
+Based on the analysis:
+
+1. Prioritize **high-grade + waterfront** properties.
+2. Focus the search on locations where target homes are geographically concentrated.
+3. Treat renovation as a useful but secondary criterion.
+4. Maintain some flexibility within the one-month purchase window.
+5. Do not assume a guaranteed one-year resale return based on this dataset.
+
+---
+
+## Repository Structure
+
+- [`01_assignment.md`](01_assignment.md) — Original project assignment
+- [`02_workflow.md`](02_workflow.md) — Recommended EDA workflow
+- [`03_fetching_the_data_eda.ipynb`](03_fetching_the_data_eda.ipynb) — Data extraction and database connection
+- [`04_eda.ipynb`](04_eda.ipynb) — Data cleaning, exploratory analysis, hypotheses, visualizations, spatial analysis, timing, and resale analysis
+- [`column_names.md`](column_names.md) — Dataset column descriptions
+- [`pyproject.toml`](pyproject.toml) — Python project dependencies
+- [`uv.lock`](uv.lock) — Locked dependency versions
+
+---
 
 ## Setup
 
-> [!NOTE]
-> Throughout these steps, text in angle brackets like `<repo-name>` is a **placeholder**. Replace it, including the `< >` brackets, with your own value. For example, `cd <repo-name>` becomes `cd ds-eda-project-template`.
-
-### 1. Create the Repository from the Template
-
-Click **Use this template** on GitHub.
-
-When creating the repository:
-
-- Set yourself as the **Owner**
-- Choose a repository name
-- Disable **Include all branches**
-- Click **Create repository**
-
-> [!IMPORTANT]
-> If you are working in pairs or groups, only **one person** should complete this step.
----
-
-### 2. Add Collaborators (Pairs/Groups Only)
-
-If working with teammates:
-
-1. Open the repository on GitHub
-2. Go to **Settings → Collaborators**
-3. Add your teammates as collaborators
-4. Share the repository link with your team
-
-Teammates should accept the invitation before continuing.
-
----
-
-### 3. Clone the Repository
-
-Copy the SSH URL from the **Code** button on GitHub, then run:
+Clone the repository:
 
 ```bash
-git clone <copied-ssh-url>
-```
+git clone git@github.com:NooshinHM/king-county-housing-eda-NHM.git
 
-The copied SSH URL will look like `git@github.com:<your-username>/<repo-name>.git`.
+## Tools
 
----
+The project uses:
 
-### 4. Move into the Project Folder and Install Dependencies
-
-This installs all dependencies and creates a virtual environment in `.venv/`.
-
-```bash
-cd <repo-name>
-uv sync
-```
-
-> [!TIP]
-> Need a library that is not installed yet (for example a mapping)? Add it with `uv add <package-name>`. This updates `pyproject.toml` and `uv.lock` and installs it into your `.venv`. Commit both files; teammates then run uv sync after pulling to get the same environment.
+- Python
+- pandas
+- NumPy
+- Matplotlib
+- PostgreSQL
+- DBeaver
+- GeoPandas
+- Contextily
+- PyDeck
+- H3
 
 ---
 
-### 5. Set up your Database Credentials
+## Author
 
-The data-fetching notebook reads the database connection details from a `.env` file. Copy the template and fill in your own values:
+**Nooshin Hadidian M.**
 
-```bash
-cp .env.example .env
-```
-
-Open `.env` and replace the placeholders with the credentials for the King County housing database (the same ones you use in DBeaver). These values feed [**03 - Fetching the Data**](03_fetching_the_data_eda.ipynb).
-
-> [!CAUTION]
-> `.env` holds secrets and must never be committed. It is already listed in `.gitignore`. Only `.env.example`, with placeholder values, belongs in the repository.
-
----
-
-### 6. Open the Notebooks
-
-> [!NOTE]
-> Make sure you open VS Code from the project root so it automatically detects the environment created by uv sync.
-
-Launch VS Code in the project root folder:
-
-```bash
-code .
-```
-
-Then open a notebook and select the Python environment created by `uv sync` as the kernel.
-
-## References & Further Reading
-
-- [**House Sales in King County dataset**](https://www.kaggle.com/datasets/harlfoxem/housesalesprediction): The source dataset, with column descriptions and community notebooks.
-- [**Pandas user guide**](https://pandas.pydata.org/docs/user_guide/index.html): The official guide to data manipulation with pandas.
-- [**Seaborn tutorial**](https://seaborn.pydata.org/tutorial.html): Statistical data visualization in Python.
-- [**SQLAlchemy documentation**](https://docs.sqlalchemy.org/en/20/): The database toolkit used to query PostgreSQL from Python.
-- [**Hypothesis generation for EDA**](https://www.analyticsvidhya.com/blog/2020/11/an-efficient-way-of-performing-eda-hypothesis-generation/): How to form research questions and hypotheses before diving into the data.
-- [**EDA Checklist**](https://github.com/neuefische/datascience-infographics/blob/main/EDA_Checklist.md): A phase-by-phase checklist for working through an exploratory analysis.
-- [**Detailed EDA with Python**](https://www.kaggle.com/code/ekami66/detailed-exploratory-data-analysis-with-python): A worked example of a thorough EDA notebook on real data.
-- [**Tips for data science presentations**](https://www.dataknowsall.com/storytelling.html): Storytelling techniques for presenting results to a non-technical audience.
+Exploratory Data Analysis Project  
+September 2026
